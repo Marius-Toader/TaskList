@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Task List</string>
+    <string name="tv_title">Tasks</string>
+    <string name="b_add">Add task</string>
+</resources>
