@@ -1,12 +1,15 @@
 package org.insbaixcamp.reus.tasklist;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -14,18 +17,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-
     private ArrayList<String> items;
     private RecyclerView recyclerView;
-    private Button button;
+    private FloatingActionButton button;
     private TaskListAdapter adapter;
-
     boolean isLoggedIn;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +40,10 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addItem(view);
+
+                Intent intent = new Intent(MainActivity.this, AddItem.class);
+                startActivity(intent);
+
             }
         });
 
@@ -75,10 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
-
     }
-
-
 
     private void setUpRecyclerViewListener() {
         adapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
@@ -97,16 +99,39 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void addItem(View view) {
-        EditText input = findViewById(R.id.etTask);
-        String itemText = input.getText().toString();
+    /*private void addItem(View view) {
 
-        if (!(itemText.equals(""))) {
-            items.add(itemText);
-            adapter.notifyDataSetChanged();
-            input.setText("");
-        } else {
-            Toast.makeText(getApplicationContext(), "Please enter text...", Toast.LENGTH_LONG).show();
-        }
-    }
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+
+        final EditText edittext = new EditText(this);
+
+        builder1.setMessage("Escribe tu mensaje");
+        builder1.setCancelable(true);
+
+        builder1.setView(edittext);
+
+
+
+        builder1.setPositiveButton(
+                "Añadir",
+                (dialog, id) -> {
+
+                    String itemText = edittext.getText().toString();
+                    if (!(itemText.equals(""))) {
+                        items.add(itemText);
+                        adapter.notifyDataSetChanged();
+                        //edittext.setText("");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Please enter text...", Toast.LENGTH_LONG).show();
+                    }
+                });
+        builder1.setNegativeButton(
+                "Cancelar",
+                (dialog, id) -> dialog.cancel());
+
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+
+    }*/
 }
