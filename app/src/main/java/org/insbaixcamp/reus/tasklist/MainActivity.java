@@ -1,6 +1,8 @@
 package org.insbaixcamp.reus.tasklist;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,7 +54,31 @@ public class MainActivity extends AppCompatActivity {
         // Obtener el valor del indicador de sesión
         isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
 
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+
+                // Remove item from the list
+                items.remove(position);
+
+                // Notify the adapter that an item has been removed
+                adapter.notifyItemRemoved(position);
+
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
     }
+
+
 
     private void setUpRecyclerViewListener() {
         adapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {

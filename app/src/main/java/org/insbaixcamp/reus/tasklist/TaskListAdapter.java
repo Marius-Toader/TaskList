@@ -8,14 +8,21 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+
+
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback;
 
 import java.util.ArrayList;
 
 public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHolder> {
 
     private ArrayList<String> tasks;
-    private OnItemClickListener listener;
+    private static OnItemClickListener listener;
+
+
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -26,22 +33,33 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         this.listener = listener;
     }
 
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvTask;
 
-        public ViewHolder(View itemView, final OnItemClickListener listener) {
+        public ViewHolder(View itemView) {
             super(itemView);
             tvTask = itemView.findViewById(R.id.tvTaskName);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
-                        }
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.onItemClick(position);
                     }
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.onItemLongClick(position);
+                        return true;
+                    }
+                    return false;
                 }
             });
         }
@@ -55,7 +73,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view, listener);
+        ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
@@ -70,3 +88,4 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         return tasks.size();
     }
 }
+
