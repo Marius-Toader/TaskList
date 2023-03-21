@@ -2,4 +2,13 @@
     <string name="app_name">Task List</string>
     <string name="tv_title">Tasks</string>
     <string name="b_add">Add task</string>
+    <string name="add_task">Add Task</string>
+    <string name="task_name">Task name</string>
+    <string name="write_task_name">Write task name</string>
+    <string name="task_description">Task description</string>
+    <string name="write_the_description">Write the description</string>
+    <string name="urgency">Urgency</string>
+    <string name="low">Low</string>
+    <string name="medium">Medium</string>
+    <string name="high">High</string>
 </resources>

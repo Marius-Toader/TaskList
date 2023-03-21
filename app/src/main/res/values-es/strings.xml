@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Task List</string>
+    <string name="tv_title">Tareas</string>
+    <string name="add_task">Añadir tarea</string>
+    <string name="task_name">Nombre de la tarea</string>
+    <string name="write_task_name">Escribe el nombre de la tarea</string>
+    <string name="task_description">Descripción de la tarea</string>
+    <string name="write_the_description">Escribe la descripción</string>
+    <string name="urgency">Urgencia</string>
+    <string name="low">Baja</string>
+    <string name="medium">Media</string>
+    <string name="high">Alta</string>
+</resources>
