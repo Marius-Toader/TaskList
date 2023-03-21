@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewDebug;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -24,6 +27,8 @@ public class AddItem extends AppCompatActivity {
 
     RadioButton low, mid, high;
 
+    Button add;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +46,8 @@ public class AddItem extends AppCompatActivity {
         mid = findViewById(R.id.mid);
         high = findViewById(R.id.high);
 
+        add = findViewById(R.id.additem);
+
         // Obtener el ID del RadioButton seleccionado
         int selectedId = rg.getCheckedRadioButtonId();
 
@@ -56,22 +63,31 @@ public class AddItem extends AppCompatActivity {
 
         String responsable = etResponsable.getText().toString();
 
-        Task task = new Task(name, description, urgency, responsable);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
+                Task task = new Task(name, description, urgency, responsable);
 
-        assert user != null;
-        String userId = user.getUid();
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                FirebaseUser user = mAuth.getCurrentUser();
+
+                assert user != null;
+                String userId = user.getUid();
 
 
-        // Obtener las referencias a la base de datos
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference tasksRef = databaseRef.child("tasks");
-        DatabaseReference userRef = tasksRef.child(userId);
+                // Obtener las referencias a la base de datos
+                DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
+                DatabaseReference tasksRef = databaseRef.child("tasks");
+                DatabaseReference userRef = tasksRef.child(userId);
 
-        // Guardar la tarea en la base de datos
-        userRef.push().setValue(task);
+                // Guardar la tarea en la base de datos
+                userRef.push().setValue(task);
+
+            }
+        });
+
+
 
     }
 

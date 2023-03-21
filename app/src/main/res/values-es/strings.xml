@@ -13,4 +13,6 @@
     <string name="high">Urgente</string>
     <string name="responsable">Responsable</string>
     <string name="write_the_incharge">Escribe quien es el responsable</string>
+    <string name="sign_in">Iniciar sesión</string>
+    <string name="sign_up">Registrarse</string>
 </resources>

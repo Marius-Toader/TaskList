@@ -12,4 +12,6 @@
     <string name="high">Urgent</string>
     <string name="responsable">"In Charge "</string>
     <string name="write_the_incharge">Write the in charge</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
 </resources>

@@ -68,16 +68,6 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        skip = findViewById(R.id.skip);
-
-        skip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
         mAuth = FirebaseAuth.getInstance();
     }
 
