@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int REQUEST_ADD_TASK = 1;
     private ArrayList<String> items;
     private RecyclerView recyclerView;
     private FloatingActionButton button;
@@ -76,6 +77,23 @@ public class MainActivity extends AppCompatActivity {
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    // Sobrescribir el método onActivityResult para recibir la tarea agregada desde AgregarTareaActivity
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Comprobar que la solicitud es para agregar una tarea y el resultado es OK
+        if (requestCode == REQUEST_ADD_TASK && resultCode == RESULT_OK) {
+
+            // Obtener la tarea desde el intent
+            Task task = (Task) data.getSerializableExtra("task");
+
+            // Agregar la tarea al RecyclerView
+            //items.add(task);
+            //taskAdapter.notifyDataSetChanged();
+        }
     }
 
     private void setUpRecyclerViewListener() {

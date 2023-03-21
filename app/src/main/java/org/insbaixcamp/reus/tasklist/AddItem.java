@@ -3,6 +3,7 @@ package org.insbaixcamp.reus.tasklist;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -83,6 +84,12 @@ public class AddItem extends AppCompatActivity {
 
                 // Guardar la tarea en la base de datos
                 userRef.push().setValue(task);
+
+                // Enviar la tarea al MainActivity
+                Intent intent = new Intent();
+                intent.putExtra("task", task);
+                setResult(RESULT_OK, intent);
+                finish();
 
             }
         });
