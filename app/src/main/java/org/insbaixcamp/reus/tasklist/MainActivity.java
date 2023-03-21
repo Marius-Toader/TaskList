@@ -18,6 +18,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -27,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FloatingActionButton button;
     private TaskListAdapter adapter;
-    boolean isLoggedIn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,11 +54,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         setUpRecyclerViewListener();
 
-        // Obtener el objeto SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences("mi_app", MODE_PRIVATE);
-
-        // Obtener el valor del indicador de sesión
-        isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
 
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
             @Override

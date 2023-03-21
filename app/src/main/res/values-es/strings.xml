@@ -8,7 +8,9 @@
     <string name="task_description">Descripción de la tarea</string>
     <string name="write_the_description">Escribe la descripción</string>
     <string name="urgency">Urgencia</string>
-    <string name="low">Baja</string>
-    <string name="medium">Media</string>
-    <string name="high">Alta</string>
+    <string name="low">No urgente</string>
+    <string name="medium">Normal</string>
+    <string name="high">Urgente</string>
+    <string name="responsable">Responsable</string>
+    <string name="write_the_incharge">Escribe quien es el responsable</string>
 </resources>
