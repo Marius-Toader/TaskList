@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHolder> {
 
-    private ArrayList<String> tasks;
+    private ArrayList<Task> tasks;
     private static OnItemClickListener listener;
 
 
@@ -35,11 +35,17 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvTask;
+        public TextView taskName;
+        public TextView taskDesc;
+        public TextView taskResp;
+        public TextView taskUrg;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvTask = itemView.findViewById(R.id.tvTaskName);
+            taskName = itemView.findViewById(R.id.tvTaskName);
+            taskDesc = itemView.findViewById(R.id.txtDescription);
+            taskResp = itemView.findViewById(R.id.txtResponsable);
+            taskUrg = itemView.findViewById(R.id.txtUrgency);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -65,7 +71,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         }
     }
 
-    public TaskListAdapter(ArrayList<String> tasks) {
+    public TaskListAdapter(ArrayList<Task> tasks) {
         this.tasks = tasks;
     }
 
@@ -79,9 +85,22 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String task = tasks.get(position);
-        holder.tvTask.setText(task);
+
+        // Obtener la tarea en la posición correspondiente de la lista
+        Task task = tasks.get(position);
+
+        // Establecer los valores de los TextViews en función de los datos de la tarea
+        holder.taskName.setText(task.getName());
+        holder.taskDesc.setText(task.getDescription());
+        holder.taskUrg.setText(task.getUrgency());
+        holder.taskResp.setText(task.getResponsable());
     }
+
+    public void addTask(Task task) {
+        tasks.add(task);
+        notifyItemInserted(tasks.size() - 1);
+    }
+
 
     @Override
     public int getItemCount() {

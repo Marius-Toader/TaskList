@@ -26,7 +26,7 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_ADD_TASK = 1;
-    private ArrayList<String> items;
+    private ArrayList<Task> items;
     private RecyclerView recyclerView;
     private FloatingActionButton button;
     private TaskListAdapter adapter;
@@ -44,8 +44,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(MainActivity.this, AddItem.class);
-                startActivity(intent);
-
+                startActivityForResult(intent, REQUEST_ADD_TASK);
             }
         });
 
@@ -91,8 +90,9 @@ public class MainActivity extends AppCompatActivity {
             Task task = (Task) data.getSerializableExtra("task");
 
             // Agregar la tarea al RecyclerView
-            //items.add(task);
-            //taskAdapter.notifyDataSetChanged();
+            adapter.addTask(task);
+
+            adapter.notifyDataSetChanged();
         }
     }
 
