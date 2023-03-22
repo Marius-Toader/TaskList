@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Task implements Serializable {
 
+    private String id;
     private String name;
 
     private String description;
@@ -12,11 +13,12 @@ public class Task implements Serializable {
 
     private String responsable;
 
-    public Task(String name, String description, String urgency, String responsable) {
+    public Task(String name, String description, String urgency, String responsable, String id) {
         this.name = name;
         this.description = description;
         this.urgency = urgency;
         this.responsable = responsable;
+        this.id = id;
     }
 
     public Task(){
@@ -53,5 +55,14 @@ public class Task implements Serializable {
 
     public void setResponsable(String responsable) {
         this.responsable = responsable;
+    }
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

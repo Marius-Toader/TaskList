@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mostrarLista();
 
         items = new ArrayList<>();
         adapter = new TaskListAdapter(items);
@@ -72,10 +71,24 @@ public class MainActivity extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
 
-                // Remove item from the list
+                // Obtener la tarea que se va a eliminar
+                Task taskToDelete = items.get(position);
+
+                // Eliminar la tarea de Firebase
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                FirebaseUser user = mAuth.getCurrentUser();
+                assert user != null;
+                String userId = user.getUid();
+                DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
+                DatabaseReference tasksRef = databaseRef.child("tasks");
+                DatabaseReference userRef = tasksRef.child(userId);
+                DatabaseReference taskRef = userRef.child(taskToDelete.getId());
+                taskRef.removeValue();
+
+                // Eliminar la tarea de la lista de tareas
                 items.remove(position);
 
-                // Notify the adapter that an item has been removed
+                // Notificar al adaptador que un elemento ha sido eliminado
                 adapter.notifyItemRemoved(position);
 
             }
@@ -83,6 +96,15 @@ public class MainActivity extends AppCompatActivity {
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        mostrarLista();
+
+
     }
 
     private void mostrarLista() {
@@ -101,6 +123,10 @@ public class MainActivity extends AppCompatActivity {
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                // Eliminar las tareas actuales del adaptador
+                adapter.clearTasks();
+
                 // Iterar sobre los hijos de la referencia del usuario
                 for (DataSnapshot taskSnapshot : snapshot.getChildren()) {
                     // Obtener la tarea y agregarla a una lista o hacer algo más con ella

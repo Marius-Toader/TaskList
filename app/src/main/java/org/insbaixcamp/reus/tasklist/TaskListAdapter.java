@@ -71,6 +71,11 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         }
     }
 
+    public void clearTasks() {
+        tasks.clear();
+        notifyDataSetChanged();
+    }
+
     public TaskListAdapter(ArrayList<Task> tasks) {
         this.tasks = tasks;
     }

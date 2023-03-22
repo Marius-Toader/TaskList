@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class AddItem extends AppCompatActivity {
 
@@ -73,8 +74,10 @@ public class AddItem extends AppCompatActivity {
 
                 String responsable = etResponsable.getText().toString();
 
+                String idTask = UUID.randomUUID().toString();
 
-                Task task = new Task(name, description, urgency, responsable);
+
+                Task task = new Task(name, description, urgency, responsable, idTask);
 
                 FirebaseAuth mAuth = FirebaseAuth.getInstance();
                 FirebaseUser user = mAuth.getCurrentUser();
