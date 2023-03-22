@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -58,6 +59,12 @@ public class AddItem extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                if (etNombre.getText().toString().isEmpty() || etDescripcion.getText().toString().isEmpty() || etResponsable.getText().toString().isEmpty() ){
+                    Toast.makeText(getApplicationContext(), getString(R.string.errorForm), Toast.LENGTH_SHORT).show();
+                }else{
+
+
+
                 selectedId = rg.getCheckedRadioButtonId();
                 if (selectedId == -1) {
                     selectedId = mid.getId();
@@ -77,7 +84,7 @@ public class AddItem extends AppCompatActivity {
                 String idTask = UUID.randomUUID().toString();
 
 
-                Task task = new Task(name, description, urgency, responsable, idTask);
+
 
                 FirebaseAuth mAuth = FirebaseAuth.getInstance();
                 FirebaseUser user = mAuth.getCurrentUser();
@@ -91,14 +98,20 @@ public class AddItem extends AppCompatActivity {
                 DatabaseReference tasksRef = databaseRef.child("tasks");
                 DatabaseReference userRef = tasksRef.child(userId);
 
+                String key = tasksRef.push().getKey();
+
+                Task task = new Task(name, description, urgency, responsable, key);
+
                 // Guardar la tarea en la base de datos
-                userRef.push().setValue(task);
+                userRef.child(key).setValue(task);
 
                 // Enviar la tarea al MainActivity
                 Intent intent = new Intent();
                 intent.putExtra("task", task);
                 setResult(RESULT_OK, intent);
                 finish();
+
+                }
 
             }
         });

@@ -15,4 +15,5 @@
     <string name="write_the_incharge">Escribe quien es el responsable</string>
     <string name="sign_in">Iniciar sesión</string>
     <string name="sign_up">Registrarse</string>
+    <string name="errorForm">Tiene que rellenar los campos para añadir la tarea</string>
 </resources>
