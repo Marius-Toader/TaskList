@@ -20,6 +20,11 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -44,9 +49,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(MainActivity.this, AddItem.class);
-                startActivityForResult(intent, REQUEST_ADD_TASK);
+                startActivity(intent);
             }
         });
+
+        mostrarLista();
 
         items = new ArrayList<>();
         adapter = new TaskListAdapter(items);
@@ -76,6 +83,43 @@ public class MainActivity extends AppCompatActivity {
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    private void mostrarLista() {
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        assert user != null;
+        String userId = user.getUid();
+
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference tasksRef = databaseRef.child("tasks");
+        DatabaseReference userRef = tasksRef.child(userId);
+
+        // Agregar listener para obtener las tareas del usuario
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // Iterar sobre los hijos de la referencia del usuario
+                for (DataSnapshot taskSnapshot : snapshot.getChildren()) {
+                    // Obtener la tarea y agregarla a una lista o hacer algo más con ella
+                    Task task = taskSnapshot.getValue(Task.class);
+                    // Hacer algo con la tarea obtenida
+
+                    // Agregar la tarea al RecyclerView
+                    adapter.addTask(task);
+
+                    adapter.notifyDataSetChanged();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Manejar errores
+            }
+        });
     }
 
     // Sobrescribir el método onActivityResult para recibir la tarea agregada desde AgregarTareaActivity

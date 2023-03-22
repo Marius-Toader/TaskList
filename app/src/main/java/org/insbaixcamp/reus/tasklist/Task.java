@@ -19,6 +19,10 @@ public class Task implements Serializable {
         this.responsable = responsable;
     }
 
+    public Task(){
+
+    }
+
     public String getName() {
         return name;
     }

@@ -30,6 +30,10 @@ public class AddItem extends AppCompatActivity {
 
     Button add;
 
+    int selectedId;
+
+    RadioButton selectedRadioButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,24 +53,26 @@ public class AddItem extends AppCompatActivity {
 
         add = findViewById(R.id.additem);
 
-        // Obtener el ID del RadioButton seleccionado
-        int selectedId = rg.getCheckedRadioButtonId();
-
-        // Obtener el RadioButton seleccionado
-        RadioButton selectedRadioButton = findViewById(selectedId);
-
-        // Obtener el texto del RadioButton seleccionado
-        String urgency = selectedRadioButton.getText().toString();
-
-        String name = etNombre.getText().toString();
-
-        String description = etDescripcion.getText().toString();
-
-        String responsable = etResponsable.getText().toString();
-
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                selectedId = rg.getCheckedRadioButtonId();
+                if (selectedId == -1) {
+                    selectedId = mid.getId();
+                }
+
+                // Obtener el RadioButton seleccionado
+                selectedRadioButton = findViewById(selectedId);
+
+                String urgency = selectedRadioButton.getText().toString();
+
+                String name = etNombre.getText().toString();
+
+                String description = etDescripcion.getText().toString();
+
+                String responsable = etResponsable.getText().toString();
+
 
                 Task task = new Task(name, description, urgency, responsable);
 
