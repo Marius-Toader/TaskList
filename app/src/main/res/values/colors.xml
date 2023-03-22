@@ -11,4 +11,8 @@
     <color name="low_urgency">#4CAF50</color>
     <color name="medium_urgency">#FAFFB700</color>
     <color name="high_urgency">#FF1100</color>
+
+    <color name="low_urgency_back">#B74CAF50</color>
+    <color name="medium_urgency_back">#B4FFB700</color>
+    <color name="high_urgency_back">#A9FF1100</color>
 </resources>

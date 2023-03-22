@@ -16,4 +16,6 @@
     <string name="sign_in">Iniciar sesión</string>
     <string name="sign_up">Registrarse</string>
     <string name="errorForm">Tiene que rellenar los campos para añadir la tarea</string>
+    <string name="delete">Desliza para eliminar</string>
+    <string name="log_off">Cerrar sesión</string>
 </resources>

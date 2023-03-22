@@ -7,10 +7,17 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.accounts.Account;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -36,14 +43,30 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FloatingActionButton button;
     private TaskListAdapter adapter;
+    private FirebaseAuth mAuth;
+    Button logoutButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Objects.requireNonNull(getSupportActionBar()).hide();
+        mAuth = FirebaseAuth.getInstance();
 
         recyclerView = findViewById(R.id.rvTasks);
         button = findViewById(R.id.bAdd);
+
+
+        logoutButton = findViewById(R.id.logout);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+                Intent intent = new Intent(MainActivity.this, Login.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,8 +82,6 @@ public class MainActivity extends AppCompatActivity {
         adapter = new TaskListAdapter(this, items);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        setUpRecyclerViewListener();
-
 
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
             @Override
@@ -93,6 +114,30 @@ public class MainActivity extends AppCompatActivity {
                 adapter.notifyItemRemoved(position);
 
             }
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                // Si el usuario está arrastrando un elemento a la izquierda
+                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE && dX < 0) {
+                    View itemView = viewHolder.itemView;
+                    Paint paint = new Paint();
+                    Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_delete); // Reemplaza R.drawable.ic_delete con el ID de tu icono
+                    float iconWidth = icon.getWidth();
+                    float iconHeight = icon.getHeight();
+
+
+                    // Dibujar fondo
+                    paint.setColor(Color.RED);
+                    RectF background = new RectF(itemView.getRight() + dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                    c.drawRect(background, paint);
+
+                    // Dibujar el icono en el fondo del elemento arrastrado
+                    c.drawBitmap(icon, itemView.getRight() - iconWidth - 50, itemView.getTop() + (itemView.getHeight() - iconHeight) / 2, paint);
+
+                }
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
         };
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
@@ -102,10 +147,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         mostrarLista();
-
-
     }
 
     private void mostrarLista() {
@@ -167,22 +209,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setUpRecyclerViewListener() {
-        adapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemLongClick(int position) {
-                Context context = getApplicationContext();
-                Toast.makeText(context,"Item Removed", Toast.LENGTH_LONG).show();
-
-                items.remove(position);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onItemClick(int position) {
-            }
-        });
-    }
 
     /*private void addItem(View view) {
 

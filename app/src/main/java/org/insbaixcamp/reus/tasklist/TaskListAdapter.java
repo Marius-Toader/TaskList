@@ -106,6 +106,13 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         holder.taskUrg.setText(task.getUrgency());
         holder.taskResp.setText(task.getResponsable());
 
+        if (task.getUrgency().equals(context.getString(R.string.low))) {
+            holder.itemView.setBackgroundResource(R.color.low_urgency_back);
+        } else if (task.getUrgency().equals(context.getString(R.string.medium))) {
+            holder.itemView.setBackgroundResource(R.color.medium_urgency_back);
+        } else if (task.getUrgency().equals(context.getString(R.string.high))){
+            holder.itemView.setBackgroundResource(R.color.high_urgency_back);
+        }
 
     }
 

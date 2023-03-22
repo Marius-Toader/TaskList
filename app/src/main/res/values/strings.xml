@@ -15,4 +15,6 @@
     <string name="sign_in">Sign in</string>
     <string name="sign_up">Sign up</string>
     <string name="errorForm">You have to fill in the fields to add the task</string>
+    <string name="delete">Swipe to delete</string>
+    <string name="log_off">Log off</string>
 </resources>
