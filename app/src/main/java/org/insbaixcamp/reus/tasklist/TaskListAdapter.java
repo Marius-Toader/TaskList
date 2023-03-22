@@ -1,6 +1,7 @@
 package org.insbaixcamp.reus.tasklist;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,10 +24,12 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
     private ArrayList<Task> tasks;
     private static OnItemClickListener listener;
 
+    Context context;
 
 
     public interface OnItemClickListener {
         void onItemClick(int position);
+
         void onItemLongClick(int position);
     }
 
@@ -76,7 +80,9 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         notifyDataSetChanged();
     }
 
-    public TaskListAdapter(ArrayList<Task> tasks) {
+
+    public TaskListAdapter(Context context, ArrayList<Task> tasks) {
+        this.context = context;
         this.tasks = tasks;
     }
 
@@ -99,6 +105,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         holder.taskDesc.setText(task.getDescription());
         holder.taskUrg.setText(task.getUrgency());
         holder.taskResp.setText(task.getResponsable());
+
+
     }
 
     public void addTask(Task task) {

@@ -123,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
                 android:text="@string/medium"
-                android:textColor="#FAFF7C18"
+                android:textColor="#FAFFB700"
                 android:textStyle="bold" />
 
             <RadioButton

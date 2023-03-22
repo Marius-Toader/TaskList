@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         items = new ArrayList<>();
-        adapter = new TaskListAdapter(items);
+        adapter = new TaskListAdapter(this, items);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         setUpRecyclerViewListener();

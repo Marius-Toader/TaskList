@@ -1,5 +1,9 @@
 package org.insbaixcamp.reus.tasklist;
 
+import android.graphics.Color;
+
+import androidx.core.content.ContextCompat;
+
 import java.io.Serializable;
 
 public class Task implements Serializable {
